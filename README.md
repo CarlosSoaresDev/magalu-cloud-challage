@@ -33,3 +33,18 @@ install docker via snap
 sudo snap install docker
 
 docker-compose up -d
+
+
+
+Em Sistemas Linux ou MacOS
+Abra o terminal: A maioria das distribuições Linux já vem com o OpenSSH instalado, então você pode usar o terminal diretamente.
+
+Gerar a chave SSH:
+
+Execute o seguinte comando:
+ssh-keygen -t rsa
+
+Você será solicitado a escolher um local para salvar a chave. Pressione Enter para aceitar o local padrão (~/.ssh/id_rsa).
+Em seguida, será solicitado a criar uma senha para proteger a chave privada (opcional, mas recomendado).
+Verifique a chave SSH: Sua chave pública estará disponível em ~/.ssh/id_rsa.pub. Para visualizar, use:
+ cat ~/.ssh/id_rsa.pub

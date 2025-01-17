@@ -15,6 +15,9 @@ func main() {
 	logger, _ := zap.NewProduction()
 	defer logger.Sync()
 
+	logger.Info(os.Getenv("REDIS_HOST_ADDRESS") + ":6379")
+	logger.Info(os.Getenv("REDIS_HOST_PASSWORD"))
+
 	engine := setupServer(logger)
 
 	port := getPort()
@@ -41,7 +44,7 @@ func setupServer(logger *zap.Logger) *gin.Engine {
 func getPort() string {
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "8080"
+		port = "8089"
 	}
 	return port
 }

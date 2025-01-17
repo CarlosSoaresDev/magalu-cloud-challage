@@ -2,6 +2,7 @@ package coin
 
 import (
 	"net/http"
+	"os"
 
 	"github.com/CarlosSoaresDev/magalu-cloud-challage/internal/services/coin"
 	"github.com/CarlosSoaresDev/magalu-cloud-challage/internal/utils"
@@ -36,5 +37,25 @@ func (c *CoinHandler) GetAllCoinsHandler(ctx *gin.Context) {
 	}
 
 	utils.ApiResponse(ctx, http.StatusOK, result)
+	c.logger.Info("[ Ended ] - Finalize request to get coin", zap.String("CorrelationId", correlationId))
+}
+
+func (c *CoinHandler) CountHandler(ctx *gin.Context) {
+
+	correlationId := ctx.GetHeader("x-magalu-cloud-correlationId")
+
+	c.logger.Info(os.Getenv("REDIS_HOST_PASSWORD"))
+
+	c.logger.Info("[ Started ] - Initialize request to get all coin", zap.String("CorrelationId", correlationId))
+
+	err := c.coinService.Count()
+
+	if err != nil {
+		c.logger.Error("[ Ended ] - Finalize with error request to get coin", zap.String("CorrelationId", correlationId), zap.Error(err))
+		utils.ApiResponse(ctx, http.StatusBadRequest, string("We were unable to process your request, please try later"))
+		return
+	}
+
+	utils.ApiResponse(ctx, http.StatusOK, nil)
 	c.logger.Info("[ Ended ] - Finalize request to get coin", zap.String("CorrelationId", correlationId))
 }

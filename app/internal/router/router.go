@@ -26,6 +26,7 @@ func Initialize(route *gin.Engine, logger *zap.Logger) {
 	subscribeRoute := groupRoute.Group("/coins")
 	{
 		subscribeRoute.GET("", coinHandler.GetAllCoinsHandler)
+		subscribeRoute.POST("", coinHandler.CountHandler)
 	}
 
 	personUserRoute := groupRoute.Group("/subscribers")

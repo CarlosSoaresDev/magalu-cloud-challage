@@ -2,6 +2,7 @@ package cache
 
 import (
 	"context"
+	"fmt"
 	"os"
 	"time"
 
@@ -22,8 +23,8 @@ type cacheClient struct {
 
 func New() *cacheClient {
 	rdb := redis.NewClient(&redis.Options{
-		Addr:     os.Getenv("CACHE_ADDRESS"),
-		Password: os.Getenv("CACHE_PASSWORD"),
+		Addr:     fmt.Sprintf("%s:6379", os.Getenv("REDIS_HOST_ADDRESS")),
+		Password: os.Getenv("REDIS_HOST_PASSWORD"),
 		DB:       0,
 	})
 

@@ -1,0 +1,41 @@
+version: '3.4'
+
+services:
+  mgc-app:
+    build:
+      dockerfile: ./Dockerfile
+      context: .
+    image: mgc-go
+    container_name: mgc-app
+    ports:
+      - 8080:8080
+    networks:
+      - prod
+    depends_on:
+      - "mgc-redis"
+    environment:
+      - REDIS_HOST_ADDRESS=mgc-redis
+    env_file:
+      - .env.prod
+
+  mgc-redis:
+    image: redis
+    container_name: mgc-redis
+    restart: always
+    command:
+      - redis-server
+      - --appendonly yes 
+      - --loglevel ${REDIS_LOGLEVEL:-warning}
+      - --requirepass "${REDIS_HOST_PASSWORD}"
+    ports:
+      -  6379:6379
+    volumes:
+      - ./docker/redis/data:/var/lib/redis    
+    networks:
+      - prod     
+    env_file:
+      - .env.prod
+
+networks:
+  prod:
+    driver: bridge

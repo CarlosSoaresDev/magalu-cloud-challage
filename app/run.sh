@@ -1,3 +1,3 @@
 sudo snap install docker
 
-docker-compose up
+sudo docker-compose up
